@@ -20,6 +20,7 @@ public class ViewPagerControls extends ConstraintLayout {
 	private ViewPager2 viewPager2;
 	private TextView currentPageTextView;
 	private SeekBar seekBar;
+	private TextView totalPagesTextView;
 	private RecyclerView.Adapter<? extends RecyclerView.ViewHolder> viewpagerAdapter;
 
 	public ViewPagerControls(@NonNull Context context) {
@@ -44,19 +45,22 @@ public class ViewPagerControls extends ConstraintLayout {
 
 	public void setAdapter(RecyclerView.Adapter<?extends RecyclerView.ViewHolder> adapter) {
 		viewpagerAdapter = adapter;
+		totalPagesTextView.setText(viewpagerAdapter.getItemCount());
+
+		viewPager2.setAdapter(viewpagerAdapter);
+		seekBar.setMax(viewpagerAdapter.getItemCount());
 	}
 
 	private void initialize(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.viewpager_controls, this);
 
-		viewPager2 = (ViewPager2) findViewById(R.id.viewpager2);
-		currentPageTextView = (TextView) findViewById(R.id.current_page_textview);
-		seekBar = (SeekBar) findViewById(R.id.seekBar);
-		TextView totalPagesTextView = (TextView) findViewById(R.id.total_pages_textview);
-		totalPagesTextView.setText(viewpagerAdapter.getItemCount());
+		viewPager2 = findViewById(R.id.viewpager2);
+		currentPageTextView = findViewById(R.id.current_page_textview);
+		seekBar = findViewById(R.id.seekBar);
+		totalPagesTextView = findViewById(R.id.total_pages_textview);
+		totalPagesTextView.setText("1");
 
-		viewPager2.setAdapter(viewpagerAdapter);
 		viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -66,7 +70,8 @@ public class ViewPagerControls extends ConstraintLayout {
 			}
 		});
 
-		seekBar.setMax(viewpagerAdapter.getItemCount());
+		seekBar.setMax(1);
+
 		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int position, boolean b) {
