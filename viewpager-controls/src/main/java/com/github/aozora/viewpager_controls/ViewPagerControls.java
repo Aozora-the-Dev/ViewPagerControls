@@ -18,9 +18,9 @@ public class ViewPagerControls extends ConstraintLayout {
 	private ViewPager2 viewPager2;
 	private TextView currentPageTextView;
 	private SeekBar seekBar;
-	private final RecyclerView.Adapter<RecyclerView.ViewHolder> viewpagerAdapter;
+	private final RecyclerView.Adapter viewpagerAdapter;
 
-	public ViewPagerControls(@NonNull Context context, RecyclerView.Adapter<RecyclerView.ViewHolder> viewpagerAdapter) {
+	public ViewPagerControls(@NonNull Context context, RecyclerView.Adapter<? extends RecyclerView.ViewHolder> viewpagerAdapter) {
 		super(context);
 		this.viewpagerAdapter = viewpagerAdapter;
 		initialize(context);
