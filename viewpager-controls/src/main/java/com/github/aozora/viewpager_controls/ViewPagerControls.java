@@ -2,11 +2,13 @@ package com.github.aozora.viewpager_controls;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -18,12 +20,30 @@ public class ViewPagerControls extends ConstraintLayout {
 	private ViewPager2 viewPager2;
 	private TextView currentPageTextView;
 	private SeekBar seekBar;
-	private final RecyclerView.Adapter viewpagerAdapter;
+	private RecyclerView.Adapter<? extends RecyclerView.ViewHolder> viewpagerAdapter;
 
-	public ViewPagerControls(@NonNull Context context, RecyclerView.Adapter<? extends RecyclerView.ViewHolder> viewpagerAdapter) {
+	public ViewPagerControls(@NonNull Context context) {
 		super(context);
-		this.viewpagerAdapter = viewpagerAdapter;
 		initialize(context);
+	}
+
+	public ViewPagerControls(@NonNull Context context, @Nullable AttributeSet attrs) {
+		super(context, attrs);
+		initialize(context);
+	}
+
+	public ViewPagerControls(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+		super(context, attrs, defStyleAttr);
+		initialize(context);
+	}
+
+	public ViewPagerControls(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+		super(context, attrs, defStyleAttr, defStyleRes);
+		initialize(context);
+	}
+
+	public void setAdapter(RecyclerView.Adapter<?extends RecyclerView.ViewHolder> adapter) {
+		viewpagerAdapter = adapter;
 	}
 
 	private void initialize(Context context) {
