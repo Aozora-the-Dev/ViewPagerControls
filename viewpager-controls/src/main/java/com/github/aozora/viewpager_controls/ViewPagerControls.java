@@ -1,5 +1,6 @@
 package com.github.aozora.viewpager_controls;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.widget.SeekBar;
@@ -10,12 +11,14 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.util.Locale;
+
+@SuppressLint("ViewConstructor")
 public class ViewPagerControls extends ConstraintLayout {
 	private ViewPager2 viewPager2;
 	private TextView currentPageTextView;
 	private SeekBar seekBar;
-	private TextView totalPagesTextView;
-	private RecyclerView.Adapter viewpagerAdapter;
+	private final RecyclerView.Adapter<RecyclerView.ViewHolder> viewpagerAdapter;
 
 	public ViewPagerControls(@NonNull Context context, RecyclerView.Adapter<RecyclerView.ViewHolder> viewpagerAdapter) {
 		super(context);
@@ -30,14 +33,15 @@ public class ViewPagerControls extends ConstraintLayout {
 		viewPager2 = (ViewPager2) findViewById(R.id.viewpager2);
 		currentPageTextView = (TextView) findViewById(R.id.current_page_textview);
 		seekBar = (SeekBar) findViewById(R.id.seekBar);
-		totalPagesTextView = (TextView) findViewById(R.id.total_pages_textview);
+		TextView totalPagesTextView = (TextView) findViewById(R.id.total_pages_textview);
+		totalPagesTextView.setText(viewpagerAdapter.getItemCount());
 
 		viewPager2.setAdapter(viewpagerAdapter);
 		viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
 			@Override
 			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 				super.onPageScrolled(position, positionOffset, positionOffsetPixels);
-				currentPageTextView.setText(Integer.toString(position));
+				currentPageTextView.setText(String.format(Locale.ENGLISH, "%d", position));
 				seekBar.setProgress(position);
 			}
 		});
@@ -46,7 +50,7 @@ public class ViewPagerControls extends ConstraintLayout {
 		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int position, boolean b) {
-				currentPageTextView.setText(Integer.toString(position));
+				currentPageTextView.setText(String.format(Locale.ENGLISH, "%d", position));
 				viewPager2.setCurrentItem(position, true);
 			}
 
