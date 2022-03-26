@@ -3,6 +3,7 @@ plugins {
 }
 
 android {
+    namespace = 'com.github.Aozora_the_Dev'
     compileSdk 31
 
     defaultConfig {
